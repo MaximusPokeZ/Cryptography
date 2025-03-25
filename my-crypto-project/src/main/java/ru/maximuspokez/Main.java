@@ -1,20 +1,37 @@
 package ru.maximuspokez;
 
-import ru.maximuspokez.crypto.PermuteBits;
+
+import ru.maximuspokez.DES.DES;
+import ru.maximuspokez.DES.DesRoundFunction;
+import ru.maximuspokez.DES.KeyExpansionImpl;
+import ru.maximuspokez.interfaces.EncryptionTransformation;
+import ru.maximuspokez.interfaces.KeyExpansion;
+import ru.maximuspokez.interfaces.SymmetricCipher;
 
 import java.util.Arrays;
 
 public class Main {
   public static void main(String[] args) {
 
+    byte[] key = {(byte)0x13, (byte)0x34, (byte)0x57, (byte)0x79, (byte)0x9B, (byte)0xBC, (byte)0xDF, (byte)0xF1};
+    byte[] message = {(byte)0x01, (byte)0x23, (byte)0x45, (byte)0x67, (byte)0x89, (byte)0xAB, (byte)0xCD, (byte)0xEF};
 
-    PermuteBits permuteBits = new PermuteBits();
+    KeyExpansion keyExpansion = new KeyExpansionImpl();
+    EncryptionTransformation roundFunction = new DesRoundFunction();
+    SymmetricCipher des = new DES(keyExpansion, roundFunction);
 
-    byte[] b = {(byte)0x11};
-    int[] pBlock = {1, 3, 5, 7, 2, 4, 6, 8};
-    byte[] r = permuteBits.permute(b, pBlock, true, true);
+    des.setSymmetricKey(key);
 
-    System.out.println(Arrays.toString(r));
+
+
+    byte[] ciphertext = des.encrypt(message);
+
+    byte[] decrypted = des.decrypt(ciphertext);
+
+    System.out.println("Plaintext:  " + Arrays.toString(message));
+    System.out.println("Ciphertext: " + Arrays.toString(ciphertext));
+    System.out.println("Decrypted:  " + Arrays.toString(decrypted));
+
 
   }
 }
