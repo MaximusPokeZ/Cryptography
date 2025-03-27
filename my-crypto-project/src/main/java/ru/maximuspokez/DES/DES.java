@@ -46,4 +46,9 @@ public class DES implements SymmetricCipher {
     log.info("Starting DES decryption");
     return feistel.decrypt(ciphertext, roundKeys);
   }
+
+  @Override
+  public int getBlockSize() {
+    return 8;
+  }
 }

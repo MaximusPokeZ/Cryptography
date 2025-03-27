@@ -7,4 +7,6 @@ public interface SymmetricCipher {
   byte[] encrypt(byte[] message);
 
   byte[] decrypt(byte[] ciphertext);
+
+  int getBlockSize();
 }
