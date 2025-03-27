@@ -1,11 +1,14 @@
 package ru.maximuspokez.DES;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.maximuspokez.feistel.Feistel;
 import ru.maximuspokez.interfaces.EncryptionTransformation;
 import ru.maximuspokez.interfaces.KeyExpansion;
 import ru.maximuspokez.interfaces.SymmetricCipher;
 
 public class DES implements SymmetricCipher {
+  private static final Logger log = LoggerFactory.getLogger(DES.class);
   private final Feistel feistel;
   private final KeyExpansion keyExpansion;
   private byte[][] roundKeys;
@@ -14,10 +17,13 @@ public class DES implements SymmetricCipher {
     this.keyExpansion = keyExpansion;
     this.feistel = new Feistel(roundFunction, 16);
     this.roundKeys = null;
+
+    log.info("DES initialized");
   }
 
   @Override
   public void setSymmetricKey(byte[] symmetricKey) {
+    log.info("Starting DES generation roundKeys");
     this.roundKeys = keyExpansion.generateRoundKeys(symmetricKey);
   }
 
@@ -26,6 +32,8 @@ public class DES implements SymmetricCipher {
     if (roundKeys == null) {
       throw new IllegalStateException("Round keys are not set. Call setSymmetricKey first!!!!");
     }
+
+    log.info("Starting DES encryption");
     return feistel.encrypt(message, roundKeys);
   }
 
@@ -34,6 +42,8 @@ public class DES implements SymmetricCipher {
     if (roundKeys == null) {
       throw new IllegalStateException("Round keys are not set. Call setSymmetricKey first!!!!");
     }
+
+    log.info("Starting DES decryption");
     return feistel.decrypt(ciphertext, roundKeys);
   }
 }

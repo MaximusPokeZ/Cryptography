@@ -13,16 +13,14 @@ import java.util.Arrays;
 public class Main {
   public static void main(String[] args) {
 
-    byte[] key = {(byte)0x13, (byte)0x34, (byte)0x57, (byte)0x79, (byte)0x9B, (byte)0xBC, (byte)0xDF, (byte)0xF1};
-    byte[] message = {(byte)0x01, (byte)0x23, (byte)0x45, (byte)0x67, (byte)0x89, (byte)0xAB, (byte)0xCD, (byte)0xEF};
+    byte[] key = {(byte)0x00, (byte)0x00, (byte)0x00, (byte)0xC4, (byte)0xC8, (byte)0xC0, (byte)0xCD, (byte)0xC0};
+    byte[] message = {(byte)0x00, (byte)0x00, (byte)0xC4, (byte)0xC2, (byte)0xCE, (byte)0xD0, (byte)0xDF, (byte)0xCA};
 
     KeyExpansion keyExpansion = new KeyExpansionImpl();
     EncryptionTransformation roundFunction = new DesRoundFunction();
     SymmetricCipher des = new DES(keyExpansion, roundFunction);
 
     des.setSymmetricKey(key);
-
-
 
     byte[] ciphertext = des.encrypt(message);
 
@@ -31,7 +29,6 @@ public class Main {
     System.out.println("Plaintext:  " + Arrays.toString(message));
     System.out.println("Ciphertext: " + Arrays.toString(ciphertext));
     System.out.println("Decrypted:  " + Arrays.toString(decrypted));
-
-
   }
+
 }
