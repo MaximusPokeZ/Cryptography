@@ -1,5 +1,7 @@
 package ru.maximuspokez.context;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.maximuspokez.constants.CipherMode;
 import ru.maximuspokez.constants.PaddingMode;
 import ru.maximuspokez.interfaces.SymmetricCipher;
@@ -11,11 +13,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SymmetricCipherContext {
+  private static final Logger log = LoggerFactory.getLogger(SymmetricCipherContext.class);
   private final SymmetricCipher cipher;
   private final int blockSize;
   private final CipherMode cipherMode;
   private final PaddingMode paddingMode;
-  private final byte[] iv;
+  private byte[] iv;
+  private byte[] nonce;
   private final Object[] params;
   private final ExecutorService executor;
 
@@ -25,7 +29,7 @@ public class SymmetricCipherContext {
     this.cipherMode = cipherMode;
     this.paddingMode = paddingMode;
     this.iv = (iv == null) ? null : iv.clone();
-    this.params = params;
+    this.params = (params == null) ? null : params.clone();
     this.executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() / 2 + 1);
   }
 
@@ -44,19 +48,149 @@ public class SymmetricCipherContext {
       throw new IllegalArgumentException("data length must be a multiple of block size: " + data.length);
     }
 
+    if (iv != null && iv.length != blockSize) {
+      throw new IllegalArgumentException("The length of IV must be equal to the block size: " + iv.length);
+    }
+
+    byte[] IV = (iv != null) ? iv.clone() : new byte[blockSize];
+    if (iv == null) {
+      SecureRandom sr = new SecureRandom();
+      sr.nextBytes(IV);
+      iv = IV.clone();
+    }
+
     byte[] result = new byte[data.length];
     switch (cipherMode) {
       case ECB:
-        for (int i = 0; i < data.length; i+=blockSize) {
+        for (int i = 0; i < data.length; i += blockSize) {
           byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
           byte[] preResult = isEncrypt ? cipher.encrypt(block) : cipher.decrypt(block);
           System.arraycopy(preResult, 0, result, i, blockSize);
+        }
+        break;
+      case CBC:
+        for (int i = 0; i < data.length; i += blockSize) {
+          byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
+          block = (isEncrypt) ? xor(IV, block) : block;
+          byte[] preResult = isEncrypt ? cipher.encrypt(block) : cipher.decrypt(block);
+          System.arraycopy((isEncrypt) ? preResult : xor(preResult, IV), 0, result, i, blockSize);
+          IV = (isEncrypt) ? preResult : block;
+        }
+        break;
+      case PCBC:
+        for (int i = 0; i < data.length; i += blockSize) {
+          byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
+          if (isEncrypt) {
+            byte[] blockToEncrypt = xor(IV, block);
+            byte[] cipherBlock = cipher.encrypt(blockToEncrypt);
+            System.arraycopy(cipherBlock, 0, result, i, blockSize);
+            IV = xor(block, cipherBlock);
+          } else {
+            byte[] decrypted = cipher.decrypt(block);
+            byte[] message = xor(IV, decrypted);
+            System.arraycopy(message, 0, result, i, blockSize);
+            IV = xor(message, block);
+          }
+        }
+        break;
+      case CFB:
+        for (int i = 0; i < data.length; i += blockSize) {
+          byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
+          byte[] preResult = cipher.encrypt(IV);
+          preResult = xor(block, preResult);
+          System.arraycopy(preResult, 0, result, i, blockSize);
+          IV = isEncrypt ? preResult : block;
+        }
+        break;
+      case OFB:
+        for(int i = 0; i < data.length; i += blockSize) {
+          byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
+          byte[] keystream = cipher.encrypt(IV);
+          byte[] preResult = xor(keystream, block);
+          System.arraycopy(preResult, 0, result, i, blockSize);
+          IV = keystream;
+        }
+        break;
+      case CTR:
+      case RANDOM_DELTA:
+        int nonceLen = blockSize / 2;
+        genNonce(nonceLen);
+
+        int counterLength = blockSize - nonceLen;
+        byte[] counter = new byte[counterLength];
+
+        byte[] ivBlock = new byte[blockSize]; // блок наполовину из nonce и наполовину из counter
+        System.arraycopy(nonce, 0, ivBlock, 0, nonceLen);
+        System.arraycopy(counter, 0, ivBlock, nonceLen, counterLength);
+
+        SecureRandom prng = null;
+        boolean useRandomDelta = false;
+        if (cipherMode == CipherMode.RANDOM_DELTA && params.length > 1) {
+          long seed = ((Number) params[1]).longValue();
+          try {
+            prng = SecureRandom.getInstance("SHA1PRNG");
+          } catch (Exception ex) {
+            prng = new SecureRandom();
+          }
+          prng.setSeed(seed);
+          useRandomDelta = true;
+        }
+
+        for (int i = 0; i < data.length; i += blockSize) {
+          byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
+          byte[] keystream = cipher.encrypt(ivBlock);
+          byte[] preResult = xor(keystream, block);
+          System.arraycopy(preResult, 0, result, i, blockSize);
+          if (useRandomDelta) {
+            byte[] delta = new byte[counterLength];
+            prng.nextBytes(delta);
+            addCounter(counter, delta);
+          } else {
+            incrementCounter(counter);
+          }
+          System.arraycopy(counter, 0, ivBlock, nonceLen, counterLength); // вставляем обратно счетчик
         }
         break;
       default:
         break;
     }
 
+    return result;
+  }
+
+  private void genNonce(int nonceLen) {
+    if (nonce == null && params.length > 0 && params[0] != null) {
+      nonce = ((byte[]) params[0]).clone();
+    } else if (nonce == null) {
+      nonce = new byte[nonceLen];
+      SecureRandom sr = new SecureRandom();
+      sr.nextBytes(nonce);
+    }
+  }
+
+  private void incrementCounter(byte[] iv) {
+    for (int i = iv.length - 1; i >= 0; i--) {
+      iv[i]++;
+      if (iv[i] != 0) {
+        break;
+      }
+    }
+  }
+
+  private void addCounter(byte[] counter, byte[] delta) {
+    int carry = 0;
+    for (int i = counter.length - 1; i >= 0; i--) {
+      int sum = (counter[i] & 0xFF) + (delta[i] & 0xFF) + carry;
+      counter[i] = (byte) sum;
+      carry = sum >> 8;
+    }
+  }
+
+  private byte[] xor(byte[] a, byte[] b) {
+    byte[] result = new byte[a.length];
+    for (int i = 0; i < result.length; i++) {
+      result[i] = (byte) (a[i] ^ b[i]);
+    }
     return result;
   }
 
@@ -94,6 +228,7 @@ public class SymmetricCipherContext {
         throw new IllegalArgumentException("unknown padding mode: " + paddingMode);
     }
 
+    log.info("Success apply padding mode: {}", paddingMode);
     return padded;
   }
 
@@ -111,7 +246,7 @@ public class SymmetricCipherContext {
       case ISO_10126:
         len = data[data.length - 1] & 0xFF;
         if (len == 0 || len > blockSize) {
-          throw new IllegalArgumentException("Invalid padding length: " + len);
+          throw new IllegalArgumentException("Invalid padding length: " + len + ", block size: " + blockSize);
         }
         break;
       default:
