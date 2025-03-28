@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4463d980-13a3-4109-94db-a2b6ef657aa0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/.idea/checkstyle-idea.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/.idea/material_theme_project_new.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/DES/DES.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/DES/DesRoundFunction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/DES/KeyExpansionImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/constants/CipherMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/constants/DesConstants.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/constants/PaddingMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/context/SymmetricCipherContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/crypto/PermuteBits.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/feistel/Feistel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/interfaces/EncryptionTransformation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/interfaces/Encryptor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/interfaces/KeyExpansion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/interfaces/SymmetricCipher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/java/ru/maximuspokez/utils/HexUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my-crypto-project/src/main/resources/Tux.jpg" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="DES_DEAL" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="DES_DEAL" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="DES_DEAL" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2ufDL0263MQJrO7dJg55qaq8DMt" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Gradle.Build DES_DEAL.executor": "Run",
+    "Gradle.Build my-crypto-project.executor": "Run",
+    "Gradle.DES_DEAL [build].executor": "Run",
+    "Gradle.my-crypto-project [:ru.maximuspokez.Main.main()].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/vladimirzaslavtsev/University/Cryptography/DES_DEAL",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/Users/vladimirzaslavtsev/University/Cryptography/my-crypto-project/src/main/java/ru/maximuspokez/Main.java",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.43031538",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.maximuspokez.Main" />
+      <module name="DES_DEAL.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.maximuspokez.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DES_DEAL [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Gradle.DES_DEAL [build]" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Gradle.DES_DEAL [build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.145" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.145" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4463d980-13a3-4109-94db-a2b6ef657aa0" name="Changes" comment="" />
+      <created>1742630677035</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1742630677035</updated>
+      <workItem from="1742630679665" duration="5467000" />
+      <workItem from="1742745058483" duration="9980000" />
+      <workItem from="1742918815491" duration="8304000" />
+      <workItem from="1743016651763" duration="3219000" />
+      <workItem from="1743059010140" duration="22480000" />
+      <workItem from="1743145791759" duration="1905000" />
+      <workItem from="1743184532894" duration="77000" />
+      <workItem from="1743184619614" duration="134000" />
+      <workItem from="1743184795591" duration="9000" />
+      <workItem from="1743185090491" duration="37000" />
+      <workItem from="1743185130092" duration="5000" />
+      <workItem from="1743185149544" duration="43000" />
+      <workItem from="1743185326168" duration="133000" />
+      <workItem from="1743185497494" duration="20000" />
+      <workItem from="1743185525812" duration="426000" />
+      <workItem from="1743187012601" duration="440000" />
+      <workItem from="1743187811415" duration="83000" />
+      <workItem from="1743187898233" duration="125000" />
+      <workItem from="1743188305674" duration="164000" />
+      <workItem from="1743188479156" duration="96000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ru/maximuspokez/feistel/Feistel.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

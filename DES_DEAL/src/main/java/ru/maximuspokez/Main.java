@@ -36,7 +36,7 @@ public class Main {
     SymmetricCipher des = new DES(keyExpansion, roundFunction);
     des.setSymmetricKey(key);
 
-    SymmetricCipherContext context = new SymmetricCipherContext(des, CipherMode.RANDOM_DELTA, PaddingMode.ANSI_X923, null, (Object) null, 10);
+    SymmetricCipherContext context = new SymmetricCipherContext(des, CipherMode.CFB, PaddingMode.ISO_10126, null, (Object) null, 10);
 
     byte[] ciphertext = context.encrypt(message);
     byte[] decrypted = context.decrypt(ciphertext);
