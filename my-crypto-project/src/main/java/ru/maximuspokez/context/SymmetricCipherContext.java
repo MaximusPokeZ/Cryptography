@@ -8,9 +8,7 @@ import ru.maximuspokez.interfaces.SymmetricCipher;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
 
 public class SymmetricCipherContext {
   private static final Logger log = LoggerFactory.getLogger(SymmetricCipherContext.class);
@@ -21,7 +19,6 @@ public class SymmetricCipherContext {
   private byte[] iv;
   private byte[] nonce;
   private final Object[] params;
-  private final ExecutorService executor;
 
   public SymmetricCipherContext(SymmetricCipher cipher, CipherMode cipherMode, PaddingMode paddingMode, byte[] iv, Object... params) {
     this.cipher = cipher;
@@ -30,7 +27,6 @@ public class SymmetricCipherContext {
     this.paddingMode = paddingMode;
     this.iv = (iv == null) ? null : iv.clone();
     this.params = (params == null) ? null : params.clone();
-    this.executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() / 2 + 1);
   }
 
   public byte[] encrypt(byte[] message) {
@@ -62,19 +58,39 @@ public class SymmetricCipherContext {
     byte[] result = new byte[data.length];
     switch (cipherMode) {
       case ECB:
-        for (int i = 0; i < data.length; i += blockSize) {
-          byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
+        IntStream.range(0, data.length / blockSize).parallel().forEach(i -> {
+          int offset = i * blockSize;
+          byte[] block = Arrays.copyOfRange(data, offset, offset + blockSize);
           byte[] preResult = isEncrypt ? cipher.encrypt(block) : cipher.decrypt(block);
-          System.arraycopy(preResult, 0, result, i, blockSize);
-        }
+          System.arraycopy(preResult, 0, result, offset, blockSize);
+        });
         break;
       case CBC:
-        for (int i = 0; i < data.length; i += blockSize) {
-          byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
-          block = (isEncrypt) ? xor(IV, block) : block;
-          byte[] preResult = isEncrypt ? cipher.encrypt(block) : cipher.decrypt(block);
-          System.arraycopy((isEncrypt) ? preResult : xor(preResult, IV), 0, result, i, blockSize);
-          IV = (isEncrypt) ? preResult : block;
+        if (isEncrypt) {
+          for (int i = 0; i < data.length; i += blockSize) {
+            byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
+            block = xor(IV, block);
+            byte[] preResult = cipher.encrypt(block);
+            System.arraycopy(preResult, 0, result, i, blockSize);
+            IV = preResult;
+          }
+        } else {
+          byte[][] decryptedBlocks = new byte[data.length / blockSize][blockSize];
+
+          // параллельная дешифровка
+          IntStream.range(0, data.length / blockSize).parallel().forEach(i -> {
+            int offset = i * blockSize;
+            byte[] block = Arrays.copyOfRange(data, offset, offset + blockSize);
+            decryptedBlocks[i] = cipher.decrypt(block);
+          });
+
+          // Но последовательно XORим с предыдущими
+          byte[] previousBlock = iv.clone();
+          for (int i = 0; i < data.length; i += blockSize) {
+            byte[] decryptedBlock = xor(decryptedBlocks[i / blockSize], previousBlock);
+            System.arraycopy(decryptedBlock, 0, result, i, blockSize);
+            previousBlock = Arrays.copyOfRange(data, i, i + blockSize);
+          }
         }
         break;
       case PCBC:
@@ -94,12 +110,32 @@ public class SymmetricCipherContext {
         }
         break;
       case CFB:
-        for (int i = 0; i < data.length; i += blockSize) {
-          byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
-          byte[] preResult = cipher.encrypt(IV);
-          preResult = xor(block, preResult);
-          System.arraycopy(preResult, 0, result, i, blockSize);
-          IV = isEncrypt ? preResult : block;
+        if (isEncrypt) {
+          for (int i = 0; i < data.length; i += blockSize) {
+            byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
+            byte[] preResult = cipher.encrypt(IV);
+            preResult = xor(block, preResult);
+            System.arraycopy(preResult, 0, result, i, blockSize);
+            IV =  preResult;
+          }
+        } else {
+            int nBlocks = data.length / blockSize;
+            byte[][] ciphertextBlocks = new byte[nBlocks][];
+            for (int i = 0; i < nBlocks; i++) { // копируем все Сi
+              ciphertextBlocks[i] = Arrays.copyOfRange(data, i * blockSize, (i + 1) * blockSize);
+            }
+            byte[][] messageBlocks = new byte[nBlocks][blockSize];
+
+            byte[] finalIV = IV;
+            java.util.stream.IntStream.range(0, nBlocks).parallel().forEach(i -> {
+              byte[] currentIV = (i == 0) ? finalIV : ciphertextBlocks[i - 1];
+              byte[] keystream = cipher.encrypt(currentIV);
+              messageBlocks[i] = xor(ciphertextBlocks[i], keystream);
+            });
+
+            for (int i = 0; i < nBlocks; i++) {
+              System.arraycopy(messageBlocks[i], 0, result, i * blockSize, blockSize);
+            }
         }
         break;
       case OFB:
@@ -119,37 +155,45 @@ public class SymmetricCipherContext {
         int counterLength = blockSize - nonceLen;
         byte[] counter = new byte[counterLength];
 
-        byte[] ivBlock = new byte[blockSize]; // блок наполовину из nonce и наполовину из counter
-        System.arraycopy(nonce, 0, ivBlock, 0, nonceLen);
-        System.arraycopy(counter, 0, ivBlock, nonceLen, counterLength);
-
-        SecureRandom prng = null;
+        SecureRandom sr = null;
         boolean useRandomDelta = false;
         if (cipherMode == CipherMode.RANDOM_DELTA && params.length > 1) {
           long seed = ((Number) params[1]).longValue();
           try {
-            prng = SecureRandom.getInstance("SHA1PRNG");
+            sr = SecureRandom.getInstance("SHA1PRNG"); // тк не на всех платформах поддерживается
           } catch (Exception ex) {
-            prng = new SecureRandom();
+            sr = new SecureRandom(); // работает неправильно, тк даже с одним seed будет генерировать разные числа в отличие от SHA1PRNG
           }
-          prng.setSeed(seed);
+          sr.setSeed(seed);
           useRandomDelta = true;
         }
 
-        for (int i = 0; i < data.length; i += blockSize) {
-          byte[] block = Arrays.copyOfRange(data, i, i + blockSize);
-          byte[] keystream = cipher.encrypt(ivBlock);
-          byte[] preResult = xor(keystream, block);
-          System.arraycopy(preResult, 0, result, i, blockSize);
+        int numBlocks = data.length / blockSize;
+        byte[][] ivBlocks = new byte[numBlocks][blockSize];
+
+        // Генерируем все IV
+        for (int i = 0; i < numBlocks; i++) {
+          byte[] ivBlock = new byte[blockSize]; // блок наполовину из nonce и наполовину из counter
+          System.arraycopy(nonce, 0, ivBlock, 0, nonceLen);
+          System.arraycopy(counter, 0, ivBlock, nonceLen, counterLength);
+          ivBlocks[i] = ivBlock;
+
           if (useRandomDelta) {
             byte[] delta = new byte[counterLength];
-            prng.nextBytes(delta);
+            sr.nextBytes(delta);
             addCounter(counter, delta);
           } else {
             incrementCounter(counter);
           }
-          System.arraycopy(counter, 0, ivBlock, nonceLen, counterLength); // вставляем обратно счетчик
         }
+
+        IntStream.range(0, numBlocks).parallel().forEach(i -> {
+          int offset = i * blockSize;
+          byte[] block = Arrays.copyOfRange(data, offset, offset + blockSize);
+          byte[] keystream = cipher.encrypt(ivBlocks[i]);
+          byte[] preResult = xor(keystream, block);
+          System.arraycopy(preResult, 0, result, offset, blockSize);
+        });
         break;
       default:
         break;
@@ -182,7 +226,7 @@ public class SymmetricCipherContext {
     for (int i = counter.length - 1; i >= 0; i--) {
       int sum = (counter[i] & 0xFF) + (delta[i] & 0xFF) + carry;
       counter[i] = (byte) sum;
-      carry = sum >> 8;
+      carry = sum >> 8; // sum / 256
     }
   }
 
