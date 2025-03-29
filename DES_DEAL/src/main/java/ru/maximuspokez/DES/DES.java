@@ -21,6 +21,15 @@ public class DES implements SymmetricCipher {
     log.info("DES initialized");
   }
 
+  public DES() {
+    this.keyExpansion = new KeyExpansionImpl();
+    EncryptionTransformation roundFunction = new DesRoundFunction();
+    this.feistel = new Feistel(roundFunction, 16);
+    this.roundKeys = null;
+
+    log.info("DES initialized");
+  }
+
   @Override
   public void setSymmetricKey(byte[] symmetricKey) {
     log.info("Starting DES generation roundKeys");
