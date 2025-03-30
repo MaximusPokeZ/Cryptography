@@ -19,6 +19,9 @@ public class DealKeyExpansionImpl implements KeyExpansion {
   @Override
   public byte[][] generateRoundKeys(byte[] key) {
     int numKeys = keySize.getNumKeys();
+    if (key.length != numKeys * 8) {
+      throw new IllegalArgumentException("Key size must be " + numKeys + " bytes");
+    }
     byte[][] keys = new byte[numKeys][];
     for (int i = 0; i < numKeys; i++) {
       keys[i] = Arrays.copyOfRange(key, i * 8, (i + 1) * 8);

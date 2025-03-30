@@ -48,7 +48,7 @@ public class Main {
     deal.setSymmetricKey(KEY);
 
 
-    SymmetricCipherContext context = new SymmetricCipherContext(des, CipherMode.RANDOM_DELTA, PaddingMode.ISO_10126, null, (Object) null, 10);
+    SymmetricCipherContext context = new SymmetricCipherContext(deal, CipherMode.RANDOM_DELTA, PaddingMode.ISO_10126, null, (Object) null, 10);
 
     byte[] ciphertext = context.encrypt(message);
     byte[] decrypted = context.decrypt(ciphertext);

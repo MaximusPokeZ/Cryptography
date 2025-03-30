@@ -16,10 +16,10 @@ public class DEAL implements SymmetricCipher {
   private byte[][] roundKeys;
   private final int blockSize = 16;
 
-  public DEAL(DealKeySize keySize, byte[] key) {
+  public DEAL(DealKeySize keySize, byte[] keyForDes) {
     this.threadLocalDES = ThreadLocal.withInitial(() -> {
       DES des = new DES();
-      des.setSymmetricKey(key);
+      des.setSymmetricKey(keyForDes);
       return des;
     });
     this.keyExpansion = new DealKeyExpansionImpl(keySize, threadLocalDES.get());

@@ -303,4 +303,8 @@ public class SymmetricCipherContext {
 
     return Arrays.copyOfRange(data, 0, data.length - len);
   }
+
+  public int getBlockSize() {
+    return blockSize;
+  }
 }
