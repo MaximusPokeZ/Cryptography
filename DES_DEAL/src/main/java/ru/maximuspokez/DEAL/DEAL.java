@@ -12,13 +12,17 @@ import java.util.Arrays;
 public class DEAL implements SymmetricCipher {
   private static final Logger log = LoggerFactory.getLogger(DEAL.class);
   private final KeyExpansion keyExpansion;
-  private final DES des;
+  private final ThreadLocal<DES> threadLocalDES;
   private byte[][] roundKeys;
   private final int blockSize = 16;
 
-  public DEAL(DealKeySize keySize, DES des) {
-    this.des = des;
-    this.keyExpansion = new DealKeyExpansionImpl(keySize, des);
+  public DEAL(DealKeySize keySize, byte[] key) {
+    this.threadLocalDES = ThreadLocal.withInitial(() -> {
+      DES des = new DES();
+      des.setSymmetricKey(key);
+      return des;
+    });
+    this.keyExpansion = new DealKeyExpansionImpl(keySize, threadLocalDES.get());
   }
 
   @Override
@@ -40,8 +44,8 @@ public class DEAL implements SymmetricCipher {
     byte[] L = Arrays.copyOfRange(message, 0, 8);
     byte[] R = Arrays.copyOfRange(message, 8, 16);
     for (byte[] roundKey : roundKeys) {
-      des.setSymmetricKey(roundKey);
-      byte[] pre = xor(R, des.encrypt(L));
+      threadLocalDES.get().setSymmetricKey(roundKey);
+      byte[] pre = xor(R, threadLocalDES.get().encrypt(L));
       R = L;
       L = pre;
     }
@@ -64,8 +68,8 @@ public class DEAL implements SymmetricCipher {
     byte[] L = Arrays.copyOfRange(ciphertext, 0, 8);
     byte[] R = Arrays.copyOfRange(ciphertext, 8, 16);
     for (int i = roundKeys.length - 1; i >= 0; i--) {
-      des.setSymmetricKey(roundKeys[i]);
-      byte[] pre = xor(L, des.encrypt(R));
+      threadLocalDES.get().setSymmetricKey(roundKeys[i]);
+      byte[] pre = xor(L, threadLocalDES.get().encrypt(R));
       L = R;
       R = pre;
     }

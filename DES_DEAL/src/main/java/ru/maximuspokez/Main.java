@@ -35,29 +35,28 @@ public class Main {
 
     byte[] message = path.readAllBytes();
 
-    SymmetricCipher des = new DES();
-    des.setSymmetricKey(key);
 
-    DEAL deal = new DEAL(DealKeySize.KEY_128, (DES) des);
     byte[] KEY = { (byte)0xD4, (byte)0xDE, (byte)0x6A, (byte)0xA8, (byte)0x94, (byte)0x55, (byte)0xD3, (byte)0x89,
             (byte)0x03, (byte)0xF6, (byte)0xD7, (byte)0x8C, (byte)0x45, (byte)0xC4, (byte)0xC5, (byte)0xD8 };
 
     byte[] MESS = { (byte)0xC7, (byte)0x22, (byte)0x7F, (byte)0x94, (byte)0xBB, (byte)0xA7, (byte)0xCB, (byte)0xA6,
-            (byte)0xD6, (byte)0x4C, (byte)0x55, (byte)0xAC, (byte)0x06, (byte)0xB2, (byte)0x8D, (byte)0x6D };
+            (byte)0xD6, (byte)0x4C, (byte)0x55, (byte)0xAC, (byte)0x06, (byte)0xB2, (byte)0x8D, (byte)0x6D, (byte)0xB2 };
 
-
+    SymmetricCipher des = new DES();
+    des.setSymmetricKey(key);
+    DEAL deal = new DEAL(DealKeySize.KEY_128, key);
     deal.setSymmetricKey(KEY);
-    byte[] Encrypted = deal.encrypt(MESS);
-    byte[] Decrypted = deal.decrypt(Encrypted);
 
-    System.out.println("Start message: " + HexUtil.bytesToHex(MESS));
-    System.out.println("Encrypted: " + HexUtil.bytesToHex(Encrypted));
-    System.out.println("Decrypted: " + HexUtil.bytesToHex(Decrypted));
 
-    SymmetricCipherContext context = new SymmetricCipherContext(deal, CipherMode.CFB, PaddingMode.ISO_10126, null, (Object) null, 10);
+    SymmetricCipherContext context = new SymmetricCipherContext(des, CipherMode.RANDOM_DELTA, PaddingMode.ISO_10126, null, (Object) null, 10);
 
     byte[] ciphertext = context.encrypt(message);
     byte[] decrypted = context.decrypt(ciphertext);
+
+//    System.out.println("Start message: " + HexUtil.bytesToHex(MESS));
+    System.out.println("MEss: " + HexUtil.bytesToHex(message));
+    System.out.println("\n\n\nDecrypted: " + HexUtil.bytesToHex(decrypted));
+    System.out.println("\n\n\nRESULT: " + (message.length == decrypted.length));
 
     String outputDir = System.getProperty("user.home") + "/Downloads/okkk.jpg";
     Files.write(Paths.get(outputDir), decrypted);

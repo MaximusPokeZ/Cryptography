@@ -31,11 +31,13 @@ public class SymmetricCipherContext {
 
   public byte[] encrypt(byte[] message) {
     byte[] padded = applyPadding(message);
+    log.info("\n\n\n\n\nPadded message: " + Arrays.toString(padded));
     return processBlocks(padded, true);
   }
 
   public byte[] decrypt(byte[] ciphertext) {
     byte[] decrypted = processBlocks(ciphertext, false);
+    log.info("\n\n\n\n\nData before removing padding: " + Arrays.toString(decrypted));
     return removePadding(decrypted);
   }
 
@@ -48,7 +50,9 @@ public class SymmetricCipherContext {
       throw new IllegalArgumentException("The length of IV must be equal to the block size: " + iv.length);
     }
 
+    log.info("DATA LEN {}", data.length);
     byte[] IV = (iv != null) ? iv.clone() : new byte[blockSize];
+
     if (iv == null) {
       SecureRandom sr = new SecureRandom();
       sr.nextBytes(IV);
@@ -56,9 +60,10 @@ public class SymmetricCipherContext {
     }
 
     byte[] result = new byte[data.length];
+    int numBlocks = data.length / blockSize;
     switch (cipherMode) {
       case ECB:
-        IntStream.range(0, data.length / blockSize).parallel().forEach(i -> {
+        IntStream.range(0, numBlocks).parallel().forEach(i -> {
           int offset = i * blockSize;
           byte[] block = Arrays.copyOfRange(data, offset, offset + blockSize);
           byte[] preResult = isEncrypt ? cipher.encrypt(block) : cipher.decrypt(block);
@@ -168,7 +173,6 @@ public class SymmetricCipherContext {
           useRandomDelta = true;
         }
 
-        int numBlocks = data.length / blockSize;
         byte[][] ivBlocks = new byte[numBlocks][blockSize];
 
         // Генерируем все IV

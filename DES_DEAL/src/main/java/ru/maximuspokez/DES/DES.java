@@ -30,6 +30,12 @@ public class DES implements SymmetricCipher {
     log.info("DES initialized");
   }
 
+  public DES(DES other) {
+    this.keyExpansion = other.keyExpansion;
+    this.feistel = other.feistel;
+    this.roundKeys = other.roundKeys;
+  }
+
   @Override
   public void setSymmetricKey(byte[] symmetricKey) {
     log.info("Starting DES generation roundKeys");

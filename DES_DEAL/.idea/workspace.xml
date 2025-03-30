@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="4463d980-13a3-4109-94db-a2b6ef657aa0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/DEAL/DEAL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/DEAL/DEAL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/DES/DES.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/DES/DES.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/feistel/Feistel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/feistel/Feistel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/context/SymmetricCipherContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/context/SymmetricCipherContext.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +189,8 @@
       <workItem from="1743187898233" duration="125000" />
       <workItem from="1743188305674" duration="164000" />
       <workItem from="1743188479156" duration="319000" />
-      <workItem from="1743258421718" duration="9690000" />
+      <workItem from="1743258421718" duration="9738000" />
+      <workItem from="1743278820817" duration="5342000" />
     </task>
     <servers />
   </component>
