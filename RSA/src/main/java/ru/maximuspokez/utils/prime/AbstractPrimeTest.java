@@ -13,7 +13,7 @@ public abstract class AbstractPrimeTest implements PrimeTest {
   @Override
   public boolean isPrime(BigInteger n, double probability) {
     if (n.compareTo(BigInteger.TWO) < 0) return false;
-    if (n.equals(BigInteger.TWO)) return true;
+    if (n.compareTo(BigInteger.valueOf(3)) <= 0) return true;
 
     int rounds = getRounds(probability);
 

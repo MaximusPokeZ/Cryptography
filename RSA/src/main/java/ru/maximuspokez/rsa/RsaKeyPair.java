@@ -1,4 +1,4 @@
 package ru.maximuspokez.rsa;
 
-public class RsaKeyPair {
+public record RsaKeyPair(PrivateKey privateKey, PublicKey publicKey) {
 }
