@@ -18,7 +18,7 @@ public class Main {
     System.out.println("Private key (d):");
     System.out.println("d = " + keyPair.privateKey().d());
 
-    BigInteger message = new BigInteger("123456789");
+    BigInteger message = new BigInteger("123452312312313123123131236789");
     BigInteger ciphertext = service.encrypt(message);
     BigInteger decrypted = service.decrypt(ciphertext);
 

@@ -20,7 +20,7 @@ public class MillerRabinTest extends AbstractPrimeTest {
 
     BigInteger newA = ExponentiationModulo.powMod(a, d, n);
 
-    if (newA.equals(BigInteger.ONE)) {
+    if (newA.equals(BigInteger.ONE) || newA.equals(nMinusOne)) {
       return true;
     }
 
