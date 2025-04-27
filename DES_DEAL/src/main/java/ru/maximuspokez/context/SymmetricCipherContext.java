@@ -31,13 +31,11 @@ public class SymmetricCipherContext {
 
   public byte[] encrypt(byte[] message) {
     byte[] padded = applyPadding(message);
-    log.info("\n\n\n\n\nPadded message: " + Arrays.toString(padded));
     return processBlocks(padded, true);
   }
 
   public byte[] decrypt(byte[] ciphertext) {
     byte[] decrypted = processBlocks(ciphertext, false);
-    log.info("\n\n\n\n\nData before removing padding: " + Arrays.toString(decrypted));
     return removePadding(decrypted);
   }
 
@@ -129,18 +127,14 @@ public class SymmetricCipherContext {
             for (int i = 0; i < nBlocks; i++) { // копируем все Сi
               ciphertextBlocks[i] = Arrays.copyOfRange(data, i * blockSize, (i + 1) * blockSize);
             }
-            byte[][] messageBlocks = new byte[nBlocks][blockSize];
 
             byte[] finalIV = IV;
-            java.util.stream.IntStream.range(0, nBlocks).parallel().forEach(i -> {
+            IntStream.range(0, nBlocks).parallel().forEach(i -> {
               byte[] currentIV = (i == 0) ? finalIV : ciphertextBlocks[i - 1];
               byte[] keystream = cipher.encrypt(currentIV);
-              messageBlocks[i] = xor(ciphertextBlocks[i], keystream);
-            });
-
-            for (int i = 0; i < nBlocks; i++) {
-              System.arraycopy(messageBlocks[i], 0, result, i * blockSize, blockSize);
-            }
+              byte[] decryptedBlock = xor(ciphertextBlocks[i], keystream);
+              System.arraycopy(decryptedBlock, 0, result, i * blockSize, blockSize);
+          });
         }
         break;
       case OFB:

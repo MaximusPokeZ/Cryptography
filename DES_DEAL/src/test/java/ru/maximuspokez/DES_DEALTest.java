@@ -16,6 +16,8 @@ import ru.maximuspokez.interfaces.SymmetricCipher;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,10 +48,13 @@ public class DES_DEALTest {
   private void testCipherWithFiles(SymmetricCipher cipher, byte[] key, String inputPath, String encPath, String decPath) throws IOException {
     cipher.setSymmetricKey(key);
     SymmetricCipherContext context = new SymmetricCipherContext(
-            cipher, CipherMode.OFB, PaddingMode.ISO_10126, null, (Object) null, 10);
+            cipher, CipherMode.CFB, PaddingMode.ISO_10126, null, (Object) null, 10);
 
+    Instant startVideo = Instant.now();
     encryptFile(context, inputPath, encPath);
     decryptFile(context, encPath, decPath);
+    Duration videoDuration = Duration.between(startVideo, Instant.now());
+    System.out.println("Video processing time: " + videoDuration.toMillis() + " ms");
 
     assertTrue(compareFiles(inputPath, decPath), "Decrypted file should match original");
   }
