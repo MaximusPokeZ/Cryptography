@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4463d980-13a3-4109-94db-a2b6ef657aa0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/context/SymmetricCipherContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/context/SymmetricCipherContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/maximuspokez/DES_DEALTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/maximuspokez/DES_DEALTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,6 +231,17 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="DES_DEAL.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="DES_DEAL.main" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Gradle.DES_DEALTest" />
       <item itemvalue="Gradle.DES_DEALTest.testDEALWithFiles" />
@@ -294,7 +304,8 @@
       <workItem from="1743336118602" duration="150000" />
       <workItem from="1743792087631" duration="781000" />
       <workItem from="1745262731638" duration="40000" />
-      <workItem from="1745771571613" duration="332000" />
+      <workItem from="1745771571613" duration="614000" />
+      <workItem from="1745860819941" duration="288000" />
     </task>
     <servers />
   </component>
