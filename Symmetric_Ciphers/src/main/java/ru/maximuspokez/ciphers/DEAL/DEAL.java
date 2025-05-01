@@ -1,8 +1,8 @@
-package ru.maximuspokez.DEAL;
+package ru.maximuspokez.ciphers.DEAL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.maximuspokez.DES.DES;
+import ru.maximuspokez.ciphers.DES.DES;
 import ru.maximuspokez.constants.DealKeySize;
 import ru.maximuspokez.interfaces.KeyExpansion;
 import ru.maximuspokez.interfaces.SymmetricCipher;

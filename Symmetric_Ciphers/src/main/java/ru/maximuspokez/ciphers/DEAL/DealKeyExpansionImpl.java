@@ -1,6 +1,6 @@
-package ru.maximuspokez.DEAL;
+package ru.maximuspokez.ciphers.DEAL;
 
-import ru.maximuspokez.DES.DES;
+import ru.maximuspokez.ciphers.DES.DES;
 import ru.maximuspokez.constants.DealKeySize;
 import ru.maximuspokez.interfaces.KeyExpansion;
 
