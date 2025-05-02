@@ -13,7 +13,7 @@ public class DEAL implements SymmetricCipher {
   private static final Logger log = LoggerFactory.getLogger(DEAL.class);
   private final KeyExpansion keyExpansion;
   private final ThreadLocal<DES> threadLocalDES;
-  private byte[][] roundKeys;
+  private byte[][] roundKeys = null;
   private final int blockSize = 16;
 
   public DEAL(DealKeySize keySize, byte[] keyForDes) {
