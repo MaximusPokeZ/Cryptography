@@ -26,7 +26,7 @@ public class RijndaelConfiguration {
     this.modulus = modulus;
     this.sBox = new Sbox(modulus);
     this.invSBox = new InverseSBox(sBox);
-    this.rcon = generateRcon(nr);
+    this.rcon = generateRcon((nr + 1) * nb);
   }
 
   public RijndaelConfiguration(int nb, int nk) {
@@ -53,6 +53,6 @@ public class RijndaelConfiguration {
 
   @Override
   public String toString() {
-    return String.format("Rijndael Configuration: Nb=%d, Nk=%d, Nr=%d, Modulus=0x%02X", nb, nk, nr, modulus & 0xFF);
+    return String.format("Rijndael Configuration: Nb=%d, Nk=%d, Nr=%d, Modulus=0x%02X", nb, nk, nr, modulus);
   }
 }

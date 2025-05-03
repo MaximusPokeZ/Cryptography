@@ -22,8 +22,15 @@ public class RijndaelConfigFactory {
     return new RijndaelConfiguration(8, 4, modulus);
   }
 
+  public static RijndaelConfiguration rijndael192Block() {
+    return new RijndaelConfiguration(6, 4);
+  }
+
+  public static RijndaelConfiguration rijndael256Block() {
+    return new RijndaelConfiguration(8, 4);
+  }
+
   public static RijndaelConfiguration custom(int nb, int nk, int modulus) {
     return new RijndaelConfiguration(nb, nk, modulus);
   }
-
 }

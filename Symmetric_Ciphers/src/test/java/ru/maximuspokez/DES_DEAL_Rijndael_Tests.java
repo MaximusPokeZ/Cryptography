@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import ru.maximuspokez.ciphers.DEAL.DEAL;
 import ru.maximuspokez.ciphers.DES.DES;
+import ru.maximuspokez.ciphers.Rijndael.Rijndael;
+import ru.maximuspokez.config.RijndaelConfigFactory;
 import ru.maximuspokez.constants.CipherMode;
 import ru.maximuspokez.constants.DealKeySize;
 import ru.maximuspokez.constants.PaddingMode;
@@ -22,9 +24,11 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DES_DEALTest {
+class DES_DEAL_Rijndael_Tests {
+
   private static byte[] keyDES;
   private static byte[] keyDEAL;
+  private static byte[] keyRijndael;
   private final int BUFFER_SIZE = 4096;
 
   private static final String ENCRYPTED_PATH = "src/test/resources/encrypted.dat";
@@ -36,25 +40,25 @@ public class DES_DEALTest {
   private static final String DECRYPTED_AUDIO_PATH = "src/test/resources/decrypted_audio.mp3";
 
   @BeforeAll
-  public static void setUp() {
-
+  static void setUp() {
     LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
     context.getLogger("root").setLevel(Level.OFF);
 
     keyDES = KeyGenerator.generateKey(8);
     keyDEAL = KeyGenerator.generateKey(16);
+    keyRijndael = KeyGenerator.generateKey(16);
   }
 
   private void testCipherWithFiles(SymmetricCipher cipher, byte[] key, String inputPath, String encPath, String decPath) throws IOException {
     cipher.setSymmetricKey(key);
     SymmetricCipherContext context = new SymmetricCipherContext(
-            cipher, CipherMode.CFB, PaddingMode.ISO_10126, null, (Object) null, 10);
+            cipher, CipherMode.RANDOM_DELTA, PaddingMode.ANSI_X923, null, (Object) null, 10);
 
     Instant startVideo = Instant.now();
     encryptFile(context, inputPath, encPath);
     decryptFile(context, encPath, decPath);
     Duration videoDuration = Duration.between(startVideo, Instant.now());
-    System.out.println("Video processing time: " + videoDuration.toMillis() + " ms");
+    System.out.println("File processing time: " + videoDuration.toMillis() + " ms");
 
     assertTrue(compareFiles(inputPath, decPath), "Decrypted file should match original");
   }
@@ -112,6 +116,21 @@ public class DES_DEALTest {
   }
 
   @Test
+  void testRijndaelEncryptionDecryption () {
+    SymmetricCipher rijndael = new Rijndael(RijndaelConfigFactory.custom(8, 8, 0x11B));
+    byte[] key = KeyGenerator.generateKey(32);
+    rijndael.setSymmetricKey(key);
+
+    byte[] message = KeyGenerator.generateKey(32);
+
+    byte[] ciphertext = rijndael.encrypt(message);
+    byte[] decrypted = rijndael.decrypt(ciphertext);
+
+    assertNotNull(ciphertext, "Ciphertext should not be null");
+    assertArrayEquals(message, decrypted, "DES: decrypted data should match original");
+  }
+
+  @Test
   void testDealEncryptionDecryption() {
     byte[] keyDES = KeyGenerator.generateKey(8);
     DEAL deal = new DEAL(DealKeySize.KEY_128, keyDES);
@@ -142,5 +161,13 @@ public class DES_DEALTest {
     testCipherWithFiles(deal, keyDEAL, VIDEO_PATH, ENCRYPTED_PATH, DECRYPTED_VIDEO_PATH);
     testCipherWithFiles(deal, keyDEAL, IMAGE_PATH, ENCRYPTED_PATH, DECRYPTED_IMAGE_PATH);
     testCipherWithFiles(deal, keyDEAL, AUDIO_PATH, ENCRYPTED_PATH, DECRYPTED_AUDIO_PATH);
+  }
+
+  @Test
+  void testRijndaelWithFiles() throws IOException {
+    SymmetricCipher rijndael = new Rijndael(RijndaelConfigFactory.aes128());
+    testCipherWithFiles(rijndael, keyRijndael, VIDEO_PATH, ENCRYPTED_PATH, DECRYPTED_VIDEO_PATH);
+    testCipherWithFiles(rijndael, keyRijndael, IMAGE_PATH, ENCRYPTED_PATH, DECRYPTED_IMAGE_PATH);
+    testCipherWithFiles(rijndael, keyRijndael, AUDIO_PATH, ENCRYPTED_PATH, DECRYPTED_AUDIO_PATH);
   }
 }

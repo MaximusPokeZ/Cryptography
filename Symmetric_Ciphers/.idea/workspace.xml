@@ -7,10 +7,15 @@
     <list default="true" id="4463d980-13a3-4109-94db-a2b6ef657aa0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/ciphers/DEAL/DEAL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/ciphers/DEAL/DEAL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/ciphers/Rijndael/RijndaelKeyExpansionImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/ciphers/Rijndael/RijndaelKeyExpansionImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/constants/RijndaelMode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/galois/GaloisFieldService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/galois/GaloisFieldService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/ciphers/Rijndael/Rijndael.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/ciphers/Rijndael/Rijndael.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/config/RijndaelConfigFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/config/RijndaelConfigFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/config/RijndaelConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/config/RijndaelConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/context/SymmetricCipherContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/context/SymmetricCipherContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ru/maximuspokez/DES_DEALTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/maximuspokez/DES_DEAL_Rijndael_Tests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/decrypted_audio.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/decrypted_image.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/decrypted_video.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/encrypted.dat" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +94,10 @@
     "Gradle.DES_DEALTest.testDESWithFiles.executor": "Run",
     "Gradle.DES_DEALTest.testDealEncryptionDecryption.executor": "Run",
     "Gradle.DES_DEALTest.testDesEncryptionDecryption.executor": "Run",
+    "Gradle.DES_DEALTest.testRijndaelWithFiles.executor": "Run",
+    "Gradle.DES_DEAL_Rijndael_Tests.executor": "Run",
+    "Gradle.DES_DEAL_Rijndael_Tests.testDealEncryptionDecryption.executor": "Run",
+    "Gradle.DES_DEAL_Rijndael_Tests.testRijndaelEncryptionDecryption.executor": "Run",
     "Gradle.Symmetric_Ciphers [:ru.maximuspokez.Main.main()].executor": "Run",
     "Gradle.Tests in 'Symmetric_Ciphers.test'.executor": "Run",
     "Gradle.my-crypto-project [:ru.maximuspokez.Main.main()].executor": "Run",
@@ -116,20 +125,7 @@
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="ru.maximuspokez.Main" />
-      <module name="Symmetric_Ciphers.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.maximuspokez.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Gradle.DES_DEAL_Rijndael_Tests">
     <configuration name="DES_DEALTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -154,7 +150,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="DES_DEALTest.testDEALWithFiles" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="DES_DEALTest.testRijndaelWithFiles" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -167,7 +163,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ru.maximuspokez.DES_DEALTest.testDEALWithFiles&quot;" />
+            <option value="&quot;ru.maximuspokez.DES_DEALTest.testRijndaelWithFiles&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -178,7 +174,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="DES_DEALTest.testDESWithFiles" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="DES_DEAL_Rijndael_Tests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -191,7 +187,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;ru.maximuspokez.DES_DEALTest.testDESWithFiles&quot;" />
+            <option value="&quot;ru.maximuspokez.DES_DEAL_Rijndael_Tests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -202,7 +198,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="Tests in 'Symmetric_Ciphers.test'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="DES_DEAL_Rijndael_Tests.testDealEncryptionDecryption" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -214,6 +210,32 @@
         <option name="taskNames">
           <list>
             <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ru.maximuspokez.DES_DEAL_Rijndael_Tests.testDealEncryptionDecryption&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="DES_DEAL_Rijndael_Tests.testRijndaelEncryptionDecryption" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ru.maximuspokez.DES_DEAL_Rijndael_Tests.testRijndaelEncryptionDecryption&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -236,19 +258,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="Gradle.Tests in 'Symmetric_Ciphers.test'" />
+      <item itemvalue="Gradle.DES_DEALTest.testRijndaelWithFiles" />
+      <item itemvalue="Gradle.DES_DEAL_Rijndael_Tests" />
+      <item itemvalue="Gradle.DES_DEAL_Rijndael_Tests.testDealEncryptionDecryption" />
+      <item itemvalue="Gradle.DES_DEAL_Rijndael_Tests.testRijndaelEncryptionDecryption" />
       <item itemvalue="Gradle.DES_DEALTest" />
-      <item itemvalue="Gradle.DES_DEALTest.testDEALWithFiles" />
-      <item itemvalue="Gradle.DES_DEALTest.testDESWithFiles" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
+        <item itemvalue="Gradle.DES_DEAL_Rijndael_Tests" />
+        <item itemvalue="Gradle.DES_DEAL_Rijndael_Tests.testRijndaelEncryptionDecryption" />
+        <item itemvalue="Gradle.DES_DEAL_Rijndael_Tests.testDealEncryptionDecryption" />
         <item itemvalue="Gradle.DES_DEALTest" />
-        <item itemvalue="Gradle.Tests in 'Symmetric_Ciphers.test'" />
-        <item itemvalue="Gradle.DES_DEALTest.testDEALWithFiles" />
-        <item itemvalue="Gradle.DES_DEALTest.testDESWithFiles" />
+        <item itemvalue="Gradle.DES_DEALTest.testRijndaelWithFiles" />
       </list>
     </recent_temporary>
   </component>
@@ -301,7 +323,8 @@
       <workItem from="1745860819941" duration="288000" />
       <workItem from="1745861211322" duration="3758000" />
       <workItem from="1746091876017" duration="16943000" />
-      <workItem from="1746177970493" duration="21563000" />
+      <workItem from="1746177970493" duration="21860000" />
+      <workItem from="1746255301025" duration="4196000" />
     </task>
     <servers />
   </component>
@@ -320,6 +343,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/ru/maximuspokez/Main.java</url>
           <line>81</line>
           <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ru/maximuspokez/config/RijndaelConfiguration.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

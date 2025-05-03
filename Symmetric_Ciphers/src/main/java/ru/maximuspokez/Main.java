@@ -85,16 +85,18 @@ public class Main {
     System.out.println(Arrays.equals(hexStringToByteArray("a0fafe1788542cb123a339392a6c7605"), roundKeys[1]));
 
 
-    SymmetricCipher cipher = new Rijndael(configuration);
-    cipher.setSymmetricKey(key);
+    SymmetricCipher rijndael = new Rijndael(configuration);
+    rijndael.setSymmetricKey(key);
+
+    SymmetricCipherContext context = new SymmetricCipherContext(rijndael, CipherMode.RANDOM_DELTA, PaddingMode.ISO_10126, null, (Object) null, 10);
 
     byte[] plaintextBlock = hexStringToByteArray("3243f6a8885a308d313198a2e0370734");
     System.out.println(HexUtil.bytesToHex(plaintextBlock));
 
-    byte[] ciphertext = cipher.encrypt(plaintextBlock);
+    byte[] ciphertext = context.encrypt(plaintextBlock);
     System.out.println("Ciphertext: " + HexUtil.bytesToHex(ciphertext));
 
-    byte[] decryptedBlock = cipher.decrypt(ciphertext);
+    byte[] decryptedBlock = context.decrypt(ciphertext);
     System.out.println("Decrypted: " + HexUtil.bytesToHex(decryptedBlock));
 
 

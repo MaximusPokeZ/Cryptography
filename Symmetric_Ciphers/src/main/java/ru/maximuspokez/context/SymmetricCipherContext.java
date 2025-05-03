@@ -87,13 +87,16 @@ public class SymmetricCipherContext {
             decryptedBlocks[i] = cipher.decrypt(block);
           });
 
-          // Но последовательно XORим с предыдущими
-          byte[] previousBlock = iv.clone();
-          for (int i = 0; i < data.length; i += blockSize) {
-            byte[] decryptedBlock = xor(decryptedBlocks[i / blockSize], previousBlock);
-            System.arraycopy(decryptedBlock, 0, result, i, blockSize);
-            previousBlock = Arrays.copyOfRange(data, i, i + blockSize);
+          byte[][] previousCiphertexts = new byte[data.length / blockSize][blockSize];
+          previousCiphertexts[0] = iv.clone();
+          for (int i = 1; i < data.length / blockSize; i++) {
+            previousCiphertexts[i] = Arrays.copyOfRange(data, (i - 1) * blockSize, i * blockSize);
           }
+
+          IntStream.range(0, data.length / blockSize).parallel().forEach(i -> {
+            byte[] plainBlock = xor(decryptedBlocks[i], previousCiphertexts[i]);
+            System.arraycopy(plainBlock, 0, result, i * blockSize, blockSize);
+          });
         }
         break;
       case PCBC:
@@ -279,7 +282,7 @@ public class SymmetricCipherContext {
 
     switch (paddingMode) {
       case ZEROS:
-        for (int i = data.length - 1; i >= 0 && data[i] == 0; i--) {
+        for (int i = data.length - 1, j = blockSize; j >= 0 && data[i] == 0; i--, j--) {
           len++;
         }
         break;

@@ -14,7 +14,7 @@ public class Rijndael implements SymmetricCipher {
 
   private final KeyExpansion keyExpansion;
   private byte[][] roundKeys = null;
-  private RijndaelConfiguration configuration;
+  private final RijndaelConfiguration configuration;
 
   public Rijndael(RijndaelConfiguration configuration) {
     this.configuration = configuration;
@@ -42,7 +42,7 @@ public class Rijndael implements SymmetricCipher {
 
     int blockSize = getBlockSize();
     if (message.length != blockSize) {
-      throw new IllegalArgumentException("Block length must be " + blockSize + "bytes but got " + message.length);
+      throw new IllegalArgumentException("Block length must be " + blockSize + " bytes but got " + message.length);
     }
 
     byte[] state = Arrays.copyOf(message, message.length);
@@ -111,7 +111,7 @@ public class Rijndael implements SymmetricCipher {
 
     for (int row = 1; row < 4; row++) { // Первая строка не сдвигается
       for (int col = 0; col < Nb; col++) {
-        int newPos = (col + row) % Nb;
+        int newPos = (col - row + Nb) % Nb;
         state[row + 4 * newPos] = temp[row + 4 * col];
       }
     }
@@ -160,9 +160,9 @@ public class Rijndael implements SymmetricCipher {
     byte[] temp = Arrays.copyOf(state, state.length);
     int Nb = configuration.getNb();
 
-    for (int row = 1; row < 4; row++) { // Обратный сдвиг
+    for (int row = 1; row < 4; row++) {
       for (int col = 0; col < Nb; col++) {
-        int newPos = (col - row + Nb) % Nb;
+        int newPos = (col + row) % Nb;
         state[row + 4 * newPos] = temp[row + 4 * col];
       }
     }
