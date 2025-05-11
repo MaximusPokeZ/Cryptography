@@ -1,6 +1,6 @@
 package ru.maximuspokez.ciphers.Rijndael;
 
-import ru.maximuspokez.config.RijndaelConfiguration;
+import ru.maximuspokez.config.Rijndael.RijndaelConfiguration;
 import ru.maximuspokez.galois.GaloisFieldService;
 import ru.maximuspokez.interfaces.KeyExpansion;
 import ru.maximuspokez.interfaces.SymmetricCipher;

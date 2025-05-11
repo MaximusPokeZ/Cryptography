@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import ru.maximuspokez.ciphers.DEAL.DEAL;
 import ru.maximuspokez.ciphers.DES.DES;
+import ru.maximuspokez.ciphers.RC6.RC6;
 import ru.maximuspokez.ciphers.Rijndael.Rijndael;
-import ru.maximuspokez.config.RijndaelConfigFactory;
+import ru.maximuspokez.config.RC6.Rc6ConfigurationFactory;
+import ru.maximuspokez.config.Rijndael.RijndaelConfigFactory;
 import ru.maximuspokez.constants.CipherMode;
 import ru.maximuspokez.constants.DealKeySize;
 import ru.maximuspokez.constants.PaddingMode;
@@ -24,11 +26,12 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DES_DEAL_Rijndael_Tests {
+class Ciphers_Tests {
 
   private static byte[] keyDES;
   private static byte[] keyDEAL;
   private static byte[] keyRijndael;
+  private static byte[] keyRc6;
   private final int BUFFER_SIZE = 4096;
 
   private static final String ENCRYPTED_PATH = "src/test/resources/encrypted.dat";
@@ -47,6 +50,7 @@ class DES_DEAL_Rijndael_Tests {
     keyDES = KeyGenerator.generateKey(8);
     keyDEAL = KeyGenerator.generateKey(16);
     keyRijndael = KeyGenerator.generateKey(16);
+    keyRc6 = KeyGenerator.generateKey(16);
   }
 
   private void testCipherWithFiles(SymmetricCipher cipher, byte[] key, String inputPath, String encPath, String decPath) throws IOException {
@@ -127,7 +131,7 @@ class DES_DEAL_Rijndael_Tests {
     byte[] decrypted = rijndael.decrypt(ciphertext);
 
     assertNotNull(ciphertext, "Ciphertext should not be null");
-    assertArrayEquals(message, decrypted, "DES: decrypted data should match original");
+    assertArrayEquals(message, decrypted, "Rijndael: decrypted data should match original");
   }
 
   @Test
@@ -143,7 +147,22 @@ class DES_DEAL_Rijndael_Tests {
     byte[] decrypted = deal.decrypt(ciphertext);
 
     assertNotNull(ciphertext, "Ciphertext should not be null");
-    assertArrayEquals(message, decrypted, "DES: decrypted data should match original");
+    assertArrayEquals(message, decrypted, "DEAL: decrypted data should match original");
+  }
+
+  @Test
+  void testRC6EncryptionDecryption () {
+    SymmetricCipher rc6 = new RC6(Rc6ConfigurationFactory.rc6_256());
+    byte[] key = KeyGenerator.generateKey(32);
+    rc6.setSymmetricKey(key);
+
+    byte[] message = KeyGenerator.generateKey(16);
+
+    byte[] ciphertext = rc6.encrypt(message);
+    byte[] decrypted = rc6.decrypt(ciphertext);
+
+    assertNotNull(ciphertext, "Ciphertext should not be null");
+    assertArrayEquals(message, decrypted, "RC6: decrypted data should match original");
   }
 
   @Test
@@ -169,5 +188,13 @@ class DES_DEAL_Rijndael_Tests {
     testCipherWithFiles(rijndael, keyRijndael, VIDEO_PATH, ENCRYPTED_PATH, DECRYPTED_VIDEO_PATH);
     testCipherWithFiles(rijndael, keyRijndael, IMAGE_PATH, ENCRYPTED_PATH, DECRYPTED_IMAGE_PATH);
     testCipherWithFiles(rijndael, keyRijndael, AUDIO_PATH, ENCRYPTED_PATH, DECRYPTED_AUDIO_PATH);
+  }
+
+  @Test
+  void testRC6lWithFiles() throws IOException {
+    SymmetricCipher rc6 = new RC6(Rc6ConfigurationFactory.rc6_128());
+    testCipherWithFiles(rc6, keyRc6, VIDEO_PATH, ENCRYPTED_PATH, DECRYPTED_VIDEO_PATH);
+    testCipherWithFiles(rc6, keyRc6, IMAGE_PATH, ENCRYPTED_PATH, DECRYPTED_IMAGE_PATH);
+    testCipherWithFiles(rc6, keyRc6, AUDIO_PATH, ENCRYPTED_PATH, DECRYPTED_AUDIO_PATH);
   }
 }

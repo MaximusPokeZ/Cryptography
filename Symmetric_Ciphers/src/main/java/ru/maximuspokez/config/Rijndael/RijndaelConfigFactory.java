@@ -1,4 +1,4 @@
-package ru.maximuspokez.config;
+package ru.maximuspokez.config.Rijndael;
 
 public class RijndaelConfigFactory {
 

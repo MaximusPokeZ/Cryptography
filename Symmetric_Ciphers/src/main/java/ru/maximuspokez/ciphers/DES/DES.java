@@ -13,14 +13,6 @@ public class DES implements SymmetricCipher {
   private final KeyExpansion keyExpansion;
   private byte[][] roundKeys;
 
-  public DES(KeyExpansion keyExpansion, EncryptionTransformation roundFunction) {
-    this.keyExpansion = keyExpansion;
-    this.feistel = new Feistel(roundFunction, 16);
-    this.roundKeys = null;
-
-    log.info("DES initialized");
-  }
-
   public DES() {
     this.keyExpansion = new KeyExpansionImpl();
     EncryptionTransformation roundFunction = new DesRoundFunction();
@@ -28,12 +20,6 @@ public class DES implements SymmetricCipher {
     this.roundKeys = null;
 
     log.info("DES initialized");
-  }
-
-  public DES(DES other) {
-    this.keyExpansion = other.keyExpansion;
-    this.feistel = other.feistel;
-    this.roundKeys = other.roundKeys;
   }
 
   @Override

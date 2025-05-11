@@ -1,4 +1,4 @@
-package ru.maximuspokez.config;
+package ru.maximuspokez.config.Rijndael;
 
 import ru.maximuspokez.exceptions.ReducedModuleException;
 import ru.maximuspokez.galois.GaloisFieldService;
