@@ -1,4 +1,4 @@
-package ru.maximuspokez.constants;
+package ru.maximuspokez.constants.SymmetricCipher;
 
 public enum CipherMode {
   ECB,    // Electronic Codebook

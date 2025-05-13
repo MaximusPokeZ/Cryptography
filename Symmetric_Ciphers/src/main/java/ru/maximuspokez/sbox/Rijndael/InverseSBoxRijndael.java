@@ -1,15 +1,17 @@
-package ru.maximuspokez.sbox;
+package ru.maximuspokez.sbox.Rijndael;
 
-public class InverseSBox implements SubstitutionBox{
+import ru.maximuspokez.sbox.SubstitutionBox;
+
+public class InverseSBoxRijndael implements SubstitutionBox {
 
   private final byte[] table;
 
-  public InverseSBox(Sbox sBox) {
+  public InverseSBoxRijndael(SBoxRijndael sBox) {
     this.table = new byte[256];
     generateFrom(sBox);
   }
 
-  private void generateFrom(Sbox sBox) {
+  private void generateFrom(SBoxRijndael sBox) {
     for (int i = 0; i < 256; i++) {
       byte value = (byte) i;
       byte mapped = sBox.get(value);

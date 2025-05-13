@@ -4,8 +4,8 @@ import ru.maximuspokez.config.Rijndael.RijndaelConfiguration;
 import ru.maximuspokez.galois.GaloisFieldService;
 import ru.maximuspokez.interfaces.KeyExpansion;
 import ru.maximuspokez.interfaces.SymmetricCipher;
-import ru.maximuspokez.sbox.InverseSBox;
-import ru.maximuspokez.sbox.Sbox;
+import ru.maximuspokez.sbox.Rijndael.InverseSBoxRijndael;
+import ru.maximuspokez.sbox.Rijndael.SBoxRijndael;
 
 import java.util.Arrays;
 
@@ -99,7 +99,7 @@ public class Rijndael implements SymmetricCipher {
   }
 
   private void subBytes(byte[] state) {
-    Sbox sBox = configuration.getSBox();
+    SBoxRijndael sBox = configuration.getSBox();
     for (int i = 0; i < state.length; i++) {
       state[i] = sBox.get(state[i]);
     }
@@ -150,7 +150,7 @@ public class Rijndael implements SymmetricCipher {
   }
 
   private void invSubBytes(byte[] state) {
-    InverseSBox invSBox = configuration.getInvSBox();
+    InverseSBoxRijndael invSBox = configuration.getInvSBox();
     for (int i = 0; i < state.length; i++) {
       state[i] = invSBox.get(state[i]);
     }

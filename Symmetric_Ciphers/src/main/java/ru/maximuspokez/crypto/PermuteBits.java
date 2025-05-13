@@ -1,6 +1,9 @@
 package ru.maximuspokez.crypto;
 
 public class PermuteBits {
+
+  private PermuteBits() {}
+
   public static byte[] permute(byte[] input, int[] pBlock, boolean LSBorMSB, boolean startFromZeroIndx) {
     int totalBits = input.length * 8;
 

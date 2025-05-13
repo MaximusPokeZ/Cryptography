@@ -1,4 +1,4 @@
-package ru.maximuspokez.constants;
+package ru.maximuspokez.constants.DEAL;
 
 public enum DealKeySize {
   KEY_128(2),

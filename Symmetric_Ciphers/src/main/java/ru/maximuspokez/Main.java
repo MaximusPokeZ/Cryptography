@@ -1,15 +1,18 @@
 package ru.maximuspokez;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.maximuspokez.ciphers.Rijndael.Rijndael;
 import ru.maximuspokez.ciphers.Rijndael.RijndaelKeyExpansionImpl;
+import ru.maximuspokez.ciphers.Serpent.Serpent;
 import ru.maximuspokez.config.Rijndael.RijndaelConfigFactory;
 import ru.maximuspokez.config.Rijndael.RijndaelConfiguration;
-import ru.maximuspokez.constants.CipherMode;
-import ru.maximuspokez.constants.PaddingMode;
+import ru.maximuspokez.config.Serpent.SerpentConfigurationFactory;
+import ru.maximuspokez.constants.Serpent.SerpentConstants;
+import ru.maximuspokez.constants.SymmetricCipher.CipherMode;
+import ru.maximuspokez.constants.SymmetricCipher.PaddingMode;
 import ru.maximuspokez.context.SymmetricCipherContext;
+import ru.maximuspokez.crypto.PermuteBits;
 import ru.maximuspokez.interfaces.KeyExpansion;
 import ru.maximuspokez.interfaces.SymmetricCipher;
 import ru.maximuspokez.utils.HexUtil;
@@ -89,6 +92,25 @@ public class Main {
     byte[] decryptedBlock = context.decrypt(ciphertext);
     System.out.println("Decrypted: " + HexUtil.bytesToHex(decryptedBlock));
 
+
+
+    byte[] testBlock = {0x1f, 0x33, 0x21, 0x12, 0x1f, 0x33, 0x21, 0x12, 0x1f, 0x33, 0x21, 0x12, 0x1f, 0x33, 0x21, 0x12};
+    byte[] afterIP = PermuteBits.permute(testBlock, SerpentConstants.IP_TABLE, false, false);
+    byte[] afterFP = PermuteBits.permute(afterIP, SerpentConstants.FP_TABLE, false, false);
+    System.out.println(Arrays.equals(testBlock, afterFP));
+
+    byte[] Key = hexStringToByteArray("80000000000000000000000000000000");
+    SymmetricCipher serpent = new Serpent(SerpentConfigurationFactory.serpent_128());
+    serpent.setSymmetricKey(Key);
+
+    byte[] pB = hexStringToByteArray("00000000000000000000000000000000");
+    System.out.println(HexUtil.bytesToHex(pB));
+
+    byte[] ciB = serpent.encrypt(pB);
+    System.out.println("Ciphertext: " + HexUtil.bytesToHex(ciB));
+
+    byte[] dB = serpent.decrypt(ciB);
+    System.out.println("Decrypted: " + HexUtil.bytesToHex(dB));
 
   }
 

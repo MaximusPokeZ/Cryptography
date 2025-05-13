@@ -2,8 +2,8 @@ package ru.maximuspokez.config.Rijndael;
 
 import ru.maximuspokez.exceptions.ReducedModuleException;
 import ru.maximuspokez.galois.GaloisFieldService;
-import ru.maximuspokez.sbox.InverseSBox;
-import ru.maximuspokez.sbox.Sbox;
+import ru.maximuspokez.sbox.Rijndael.InverseSBoxRijndael;
+import ru.maximuspokez.sbox.Rijndael.SBoxRijndael;
 import ru.maximuspokez.utils.PolynomialUtils;
 
 public class RijndaelConfiguration {
@@ -12,8 +12,8 @@ public class RijndaelConfiguration {
   private final int nr;
   private final int modulus;
 
-  private final Sbox sBox;
-  private final InverseSBox invSBox;
+  private final SBoxRijndael sBox;
+  private final InverseSBoxRijndael invSBox;
 
   private final byte[] rcon;
 
@@ -24,8 +24,8 @@ public class RijndaelConfiguration {
     if (!PolynomialUtils.isIrreducible(modulus))
       throw new ReducedModuleException("The module must be irreducible!");
     this.modulus = modulus;
-    this.sBox = new Sbox(modulus);
-    this.invSBox = new InverseSBox(sBox);
+    this.sBox = new SBoxRijndael(modulus);
+    this.invSBox = new InverseSBoxRijndael(sBox);
     this.rcon = generateRcon((nr + 1) * nb);
   }
 
@@ -47,8 +47,8 @@ public class RijndaelConfiguration {
   public int getNk() { return nk; }
   public int getNr() { return nr; }
   public int getModulus() { return modulus; }
-  public Sbox getSBox() { return sBox; }
-  public InverseSBox getInvSBox() { return invSBox; }
+  public SBoxRijndael getSBox() { return sBox; }
+  public InverseSBoxRijndael getInvSBox() { return invSBox; }
   public byte[] getRcon() { return rcon; }
 
   @Override

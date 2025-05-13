@@ -2,7 +2,7 @@ package ru.maximuspokez.ciphers.DES;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.maximuspokez.constants.DesConstants;
+import ru.maximuspokez.constants.DES.DesConstants;
 import ru.maximuspokez.crypto.PermuteBits;
 import ru.maximuspokez.interfaces.EncryptionTransformation;
 

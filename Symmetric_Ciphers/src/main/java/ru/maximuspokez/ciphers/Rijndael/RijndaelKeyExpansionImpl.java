@@ -2,7 +2,7 @@ package ru.maximuspokez.ciphers.Rijndael;
 
 import ru.maximuspokez.config.Rijndael.RijndaelConfiguration;
 import ru.maximuspokez.interfaces.KeyExpansion;
-import ru.maximuspokez.sbox.Sbox;
+import ru.maximuspokez.sbox.Rijndael.SBoxRijndael;
 
 public class RijndaelKeyExpansionImpl implements KeyExpansion {
 
@@ -63,7 +63,7 @@ public class RijndaelKeyExpansionImpl implements KeyExpansion {
   }
 
   private byte[] subWord(byte[] word) {
-    Sbox sBox = configuration.getSBox();
+    SBoxRijndael sBox = configuration.getSBox();
     byte[] result = new byte[4];
     for (int i = 0; i < 4; i++) {
       result[i] = sBox.get(word[i]);

@@ -1,12 +1,13 @@
-package ru.maximuspokez.sbox;
+package ru.maximuspokez.sbox.Rijndael;
 
 import ru.maximuspokez.galois.GaloisFieldService;
+import ru.maximuspokez.sbox.SubstitutionBox;
 
-public class Sbox implements SubstitutionBox{
+public class SBoxRijndael implements SubstitutionBox {
 
   private final byte[] table;
 
-  public Sbox(int modulus) {
+  public SBoxRijndael(int modulus) {
     this.table = new byte[256];
     generate(modulus);
   }

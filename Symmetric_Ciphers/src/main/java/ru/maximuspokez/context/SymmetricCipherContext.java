@@ -2,8 +2,8 @@ package ru.maximuspokez.context;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.maximuspokez.constants.CipherMode;
-import ru.maximuspokez.constants.PaddingMode;
+import ru.maximuspokez.constants.SymmetricCipher.CipherMode;
+import ru.maximuspokez.constants.SymmetricCipher.PaddingMode;
 import ru.maximuspokez.interfaces.SymmetricCipher;
 
 import java.security.SecureRandom;

@@ -9,11 +9,13 @@ import ru.maximuspokez.ciphers.DEAL.DEAL;
 import ru.maximuspokez.ciphers.DES.DES;
 import ru.maximuspokez.ciphers.RC6.RC6;
 import ru.maximuspokez.ciphers.Rijndael.Rijndael;
+import ru.maximuspokez.ciphers.Serpent.Serpent;
 import ru.maximuspokez.config.RC6.Rc6ConfigurationFactory;
 import ru.maximuspokez.config.Rijndael.RijndaelConfigFactory;
-import ru.maximuspokez.constants.CipherMode;
-import ru.maximuspokez.constants.DealKeySize;
-import ru.maximuspokez.constants.PaddingMode;
+import ru.maximuspokez.config.Serpent.SerpentConfigurationFactory;
+import ru.maximuspokez.constants.SymmetricCipher.CipherMode;
+import ru.maximuspokez.constants.DEAL.DealKeySize;
+import ru.maximuspokez.constants.SymmetricCipher.PaddingMode;
 import ru.maximuspokez.context.SymmetricCipherContext;
 import ru.maximuspokez.interfaces.SymmetricCipher;
 
@@ -32,6 +34,7 @@ class Ciphers_Tests {
   private static byte[] keyDEAL;
   private static byte[] keyRijndael;
   private static byte[] keyRc6;
+  private static byte[] keySerpent;
   private final int BUFFER_SIZE = 4096;
 
   private static final String ENCRYPTED_PATH = "src/test/resources/encrypted.dat";
@@ -51,6 +54,7 @@ class Ciphers_Tests {
     keyDEAL = KeyGenerator.generateKey(16);
     keyRijndael = KeyGenerator.generateKey(16);
     keyRc6 = KeyGenerator.generateKey(16);
+    keySerpent = KeyGenerator.generateKey(16);
   }
 
   private void testCipherWithFiles(SymmetricCipher cipher, byte[] key, String inputPath, String encPath, String decPath) throws IOException {
@@ -166,6 +170,21 @@ class Ciphers_Tests {
   }
 
   @Test
+  void testSerpentEncryptionDecryption () {
+    SymmetricCipher serpent = new Serpent(SerpentConfigurationFactory.serpent_128());
+    byte[] key = KeyGenerator.generateKey(16);
+    serpent.setSymmetricKey(key);
+
+    byte[] message = KeyGenerator.generateKey(16);
+
+    byte[] ciphertext = serpent.encrypt(message);
+    byte[] decrypted = serpent.decrypt(ciphertext);
+
+    assertNotNull(ciphertext, "Ciphertext should not be null");
+    assertArrayEquals(message, decrypted, "RC6: decrypted data should match original");
+  }
+
+  @Test
   void testDESWithFiles() throws IOException {
     SymmetricCipher des = new DES();
     testCipherWithFiles(des, keyDES, VIDEO_PATH, ENCRYPTED_PATH, DECRYPTED_VIDEO_PATH);
@@ -196,5 +215,13 @@ class Ciphers_Tests {
     testCipherWithFiles(rc6, keyRc6, VIDEO_PATH, ENCRYPTED_PATH, DECRYPTED_VIDEO_PATH);
     testCipherWithFiles(rc6, keyRc6, IMAGE_PATH, ENCRYPTED_PATH, DECRYPTED_IMAGE_PATH);
     testCipherWithFiles(rc6, keyRc6, AUDIO_PATH, ENCRYPTED_PATH, DECRYPTED_AUDIO_PATH);
+  }
+
+  @Test
+  void testSerpentWithFiles() throws IOException {
+    SymmetricCipher serpent = new Serpent(SerpentConfigurationFactory.serpent_128());
+    testCipherWithFiles(serpent, keySerpent, VIDEO_PATH, ENCRYPTED_PATH, DECRYPTED_VIDEO_PATH);
+    testCipherWithFiles(serpent, keySerpent, IMAGE_PATH, ENCRYPTED_PATH, DECRYPTED_IMAGE_PATH);
+    testCipherWithFiles(serpent, keySerpent, AUDIO_PATH, ENCRYPTED_PATH, DECRYPTED_AUDIO_PATH);
   }
 }

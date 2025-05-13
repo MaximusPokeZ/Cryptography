@@ -1,7 +1,7 @@
 package ru.maximuspokez.ciphers.DEAL;
 
 import ru.maximuspokez.ciphers.DES.DES;
-import ru.maximuspokez.constants.DealKeySize;
+import ru.maximuspokez.constants.DEAL.DealKeySize;
 import ru.maximuspokez.interfaces.KeyExpansion;
 
 import java.nio.ByteBuffer;

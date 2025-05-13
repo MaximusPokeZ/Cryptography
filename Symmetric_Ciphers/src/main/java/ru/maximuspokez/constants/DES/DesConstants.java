@@ -1,4 +1,4 @@
-package ru.maximuspokez.constants;
+package ru.maximuspokez.constants.DES;
 
 public class DesConstants {
 
