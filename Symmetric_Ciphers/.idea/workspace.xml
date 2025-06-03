@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4463d980-13a3-4109-94db-a2b6ef657aa0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../CW_Like_Telegram/.idea/CW_Like_Telegram.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CW_Like_Telegram/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CW_Like_Telegram/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CW_Like_Telegram/.idea/material_theme_project_new.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CW_Like_Telegram/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CW_Like_Telegram/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CW_Like_Telegram/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CW_Like_Telegram/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CW_Like_Telegram/messenger" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/maximuspokez/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/encrypted.dat" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/encrypted.dat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -338,7 +327,7 @@
       <workItem from="1748537504767" duration="227000" />
       <workItem from="1748546440023" duration="2000" />
       <workItem from="1748773335975" duration="300000" />
-      <workItem from="1748951298274" duration="411000" />
+      <workItem from="1748951298274" duration="729000" />
     </task>
     <servers />
   </component>
