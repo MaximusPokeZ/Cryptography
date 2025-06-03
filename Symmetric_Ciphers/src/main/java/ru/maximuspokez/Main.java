@@ -2,9 +2,11 @@ package ru.maximuspokez;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.maximuspokez.ciphers.RC6.RC6;
 import ru.maximuspokez.ciphers.Rijndael.Rijndael;
 import ru.maximuspokez.ciphers.Rijndael.RijndaelKeyExpansionImpl;
 import ru.maximuspokez.ciphers.Serpent.Serpent;
+import ru.maximuspokez.config.RC6.Rc6ConfigurationFactory;
 import ru.maximuspokez.config.Rijndael.RijndaelConfigFactory;
 import ru.maximuspokez.config.Rijndael.RijndaelConfiguration;
 import ru.maximuspokez.config.Serpent.SerpentConfigurationFactory;
@@ -65,17 +67,17 @@ public class Main {
     int modulus =  0x11b; // стандартный AES модуль
 
 
-    RijndaelConfiguration configuration = RijndaelConfigFactory.aes128();
+    RijndaelConfiguration configuration = RijndaelConfigFactory.rijndael192Block();
 
-    System.out.println(HexUtil.bytesToHex(configuration.getRcon()));
+//    System.out.println(HexUtil.bytesToHex(configuration.getRcon()));
 
     KeyExpansion keyExpansion = new RijndaelKeyExpansionImpl(configuration);
 
     byte[] key = hexStringToByteArray("2b7e151628aed2a6abf7158809cf4f3c");
     byte[][] roundKeys = keyExpansion.generateRoundKeys(key);
-
-    System.out.println(HexUtil.bytesToHex(roundKeys[1]));
-    System.out.println(Arrays.equals(hexStringToByteArray("a0fafe1788542cb123a339392a6c7605"), roundKeys[1]));
+//
+//    System.out.println(HexUtil.bytesToHex(roundKeys[1]));
+//    System.out.println(Arrays.equals(hexStringToByteArray("a0fafe1788542cb123a339392a6c7605"), roundKeys[1]));
 
 
     SymmetricCipher rijndael = new Rijndael(configuration);
@@ -83,7 +85,7 @@ public class Main {
 
     SymmetricCipherContext context = new SymmetricCipherContext(rijndael, CipherMode.RANDOM_DELTA, PaddingMode.ISO_10126, null, (Object) null, 10);
 
-    byte[] plaintextBlock = hexStringToByteArray("3243f6a8885a308d313198a2e0370734");
+    byte[] plaintextBlock = hexStringToByteArray("ffffffffffffffffffffffffffffffff");
     System.out.println(HexUtil.bytesToHex(plaintextBlock));
 
     byte[] ciphertext = context.encrypt(plaintextBlock);
@@ -93,24 +95,24 @@ public class Main {
     System.out.println("Decrypted: " + HexUtil.bytesToHex(decryptedBlock));
 
 
-
-    byte[] testBlock = {0x1f, 0x33, 0x21, 0x12, 0x1f, 0x33, 0x21, 0x12, 0x1f, 0x33, 0x21, 0x12, 0x1f, 0x33, 0x21, 0x12};
-    byte[] afterIP = PermuteBits.permute(testBlock, SerpentConstants.IP_TABLE, false, false);
-    byte[] afterFP = PermuteBits.permute(afterIP, SerpentConstants.FP_TABLE, false, false);
-    System.out.println(Arrays.equals(testBlock, afterFP));
-
-    byte[] Key = hexStringToByteArray("80000000000000000000000000000000");
-    SymmetricCipher serpent = new Serpent(SerpentConfigurationFactory.serpent_128());
-    serpent.setSymmetricKey(Key);
-
-    byte[] pB = hexStringToByteArray("00000000000000000000000000000000");
-    System.out.println(HexUtil.bytesToHex(pB));
-
-    byte[] ciB = serpent.encrypt(pB);
-    System.out.println("Ciphertext: " + HexUtil.bytesToHex(ciB));
-
-    byte[] dB = serpent.decrypt(ciB);
-    System.out.println("Decrypted: " + HexUtil.bytesToHex(dB));
+//
+//    byte[] testBlock = {0x1f, 0x33, 0x21, 0x12, 0x1f, 0x33, 0x21, 0x12, 0x1f, 0x33, 0x21, 0x12, 0x1f, 0x33, 0x21, 0x12};
+//    byte[] afterIP = PermuteBits.permute(testBlock, SerpentConstants.IP_TABLE, false, false);
+//    byte[] afterFP = PermuteBits.permute(afterIP, SerpentConstants.FP_TABLE, false, false);
+//    System.out.println(Arrays.equals(testBlock, afterFP));
+//
+//    byte[] Key = hexStringToByteArray("80000000000000000000000000000000");
+//    SymmetricCipher rc6 = new RC6(Rc6ConfigurationFactory.rc6_128());
+//    rc6.setSymmetricKey(Key);
+//
+//    byte[] pB = hexStringToByteArray("ffffffffffffffffffffffffffffffff");
+//    System.out.println(HexUtil.bytesToHex(pB));
+//
+//    byte[] ciB = rc6.encrypt(pB);
+//    System.out.println("Ciphertext: " + HexUtil.bytesToHex(ciB));
+//
+//    byte[] dB = rc6.decrypt(ciB);
+//    System.out.println("Decrypted: " + HexUtil.bytesToHex(dB));
 
   }
 
