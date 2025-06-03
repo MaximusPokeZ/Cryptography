@@ -373,12 +373,6 @@ public class MainChatController {
 
         updateLastMessage(room, message);
 
-        if (currentChat != null && currentChat.getRoomId().equals(room.getRoomId())) {
-          messagesContainer.getChildren().add(createMessageBubble(message));
-          messagesScrollPane.layout();
-          messagesScrollPane.setVvalue(1.0);
-        }
-
       } else {
         state.outputStream.write(decrypted.getKey());
         state.previous = decrypted.getValue();
@@ -1235,9 +1229,11 @@ public class MainChatController {
   private void updateLastMessage(ChatRoom room, Message fileMessage) {
     updateDbLastMessage(room, fileMessage);
 
-    messagesContainer.getChildren().add(createMessageBubble(fileMessage));
-    messagesScrollPane.layout();
-    messagesScrollPane.setVvalue(1.0);
+    if (currentChat != null && currentChat.getRoomId().equals(room.getRoomId())) {
+      messagesContainer.getChildren().add(createMessageBubble(fileMessage));
+      messagesScrollPane.layout();
+      messagesScrollPane.setVvalue(1.0);
+    }
   }
 
   private void updateDbLastMessage(ChatRoom room, Message fileMessage) {

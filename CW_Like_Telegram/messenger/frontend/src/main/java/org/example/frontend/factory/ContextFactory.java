@@ -58,7 +58,6 @@ public class ContextFactory {
             default -> throw new IllegalArgumentException("Unexpected key length: " + room.getKeyBitLength());
         };
 
-
         byte[] key = new byte[requiredLength];
         int copyLength = Math.min(fullKey.length, requiredLength);
         int offset = fullKey.length > requiredLength ? fullKey.length - requiredLength : 0;
