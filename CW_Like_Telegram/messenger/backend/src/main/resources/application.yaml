@@ -1,0 +1,59 @@
+#server:
+#  port: 8080
+
+
+server:
+  port: 8080
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: 111111
+    key-store-type: PKCS12
+    key-alias: myapp
+
+  http:
+    port: 8081
+
+
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/messenger_db
+    username: af
+    password: af
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true  # (http://localhost:8081/h2-console)
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update  #create-drop
+    show-sql: true
+
+  security: #only basic not ssat
+    user:
+      name: admin
+      password: "{noop}admin"
+
+jwt:
+  secret: "dGhpcy1pcy1zZWNyZXQta2V5LWZvci1qd3Qtc2lnbmluZy0xMjM0NTY3ODkw"
+  expiration-ms: 1440m
+  issuer: server_back
+
+#logging:
+#  level:
+#    root : WARN
+#    io.grpc: INFO
+#    org.springframework.security: WARN
+
+
+grpc:
+  server:
+    port: 50051
+    security:
+      enabled: false
+
