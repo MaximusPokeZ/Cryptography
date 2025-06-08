@@ -38,10 +38,15 @@
 
 ### Скриншоты интерфейса
 
-![Главный экран чата](images/chat_main_screen.png)
+![Логин](images/login.png)
 
-![Окно передачи файлов](images/file_transfer_progress.png)
+![Регистрация](images/reg.png)
+
+![Создание комнаты](images/create.png)
+
+![Главный экран чата](images/main.png)
+
+![Окно передачи файлов](images/bar.png)
 
 ---
 
-});
