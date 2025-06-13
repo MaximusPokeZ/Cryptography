@@ -7,6 +7,8 @@ import java.math.BigInteger;
 
 public class JacobiSymbol {
 
+  private JacobiSymbol() {}
+
   public static int calculate(BigInteger a, BigInteger n) {
     if (n.testBit(1) && n.signum() <= 0) {
       throw new IllegalArgumentException("n must be positive and odd");
