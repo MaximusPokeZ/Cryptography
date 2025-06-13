@@ -22,7 +22,7 @@ public class FermatAttack {
     BigInteger q = factorization.q;
 
     BigInteger phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
-    BigInteger d = ExtendedEuclid.extendedEuclid(e, phi).x;
+    BigInteger d = ExtendedEuclid.extendedEuclid(e, phi).x();
     if (d.compareTo(BigInteger.ZERO) < 0) {
       d = d.add(phi);
     }

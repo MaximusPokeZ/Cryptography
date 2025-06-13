@@ -20,7 +20,7 @@ class AttackTests {
     BigInteger phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
     BigInteger d = BigInteger.valueOf(3);
 
-    BigInteger e = ExtendedEuclid.extendedEuclid(d, phi).x;
+    BigInteger e = ExtendedEuclid.extendedEuclid(d, phi).x();
     if (e.signum() < 0) {
       e = e.add(phi);
     }
@@ -51,7 +51,7 @@ class AttackTests {
     BigInteger n = p.multiply(q);
     BigInteger e = BigInteger.valueOf(65537);
     BigInteger phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
-    BigInteger d = ExtendedEuclid.extendedEuclid(e, phi).x;
+    BigInteger d = ExtendedEuclid.extendedEuclid(e, phi).x();
 
     if (d.signum() < 0) {
       d = d.add(phi);

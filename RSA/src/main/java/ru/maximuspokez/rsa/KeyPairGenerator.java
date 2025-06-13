@@ -46,7 +46,7 @@ public class KeyPairGenerator {
       } while (!Euclid.euclid(e, phi).equals(BigInteger.ONE));
     }
 
-    d = ExtendedEuclid.extendedEuclid(e, phi).x;
+    d = ExtendedEuclid.extendedEuclid(e, phi).x();
     if (d.compareTo(BigInteger.ZERO) < 0) {
       d = d.add(phi);
     }

@@ -4,22 +4,13 @@ import java.math.BigInteger;
 
 public class ExtendedEuclid {
 
-  public static class Result {
-    public final BigInteger gcd;
-    public final BigInteger x;
-    public final BigInteger y;
-
-    public Result(BigInteger gcd, BigInteger x, BigInteger y) {
-      this.gcd = gcd;
-      this.x = x;
-      this.y = y;
-    }
+  public record Result(BigInteger gcd, BigInteger x, BigInteger y) {
 
     @Override
-    public String toString() {
-      return String.format("gcd = %s, x = %s, y = %s", gcd, x, y);
+      public String toString() {
+        return String.format("gcd = %s, x = %s, y = %s", gcd, x, y);
+      }
     }
-  }
 
   public static Result extendedEuclid(BigInteger a, BigInteger b) {
     if (b.equals(BigInteger.ZERO)) {
